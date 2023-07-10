@@ -14,6 +14,7 @@
 		runTransaction
 	} from 'firebase/firestore';
 	import InputList from '../components/InputList.svelte';
+	import { handleSubmit } from '../lib/handleSubmit';
 
 	let polls = [];
 	let questionT = '';
@@ -34,40 +35,6 @@
 
 	function showNextPoll() {
 		currentPollIndex = (currentPollIndex + 1) % polls.length;
-	}
-
-	async function handleSubmit() {
-		if (questionT === '') {
-			alert('Please enter a question');
-			return;
-		}
-
-		//function (item) {
-		//	return item.value;
-		//}
-
-		const hasOption = optionsT.some((item) => {
-			return item.value !== '';
-		});
-
-		if (!hasOption) {
-			alert('Please enter at least one option');
-			return;
-		}
-
-		const poll = {
-			question: questionT,
-			options: optionsT
-				.filter((item) => item.value !== '')
-				.map((item) => ({ name: item.value, votes: 0 }))
-		};
-
-		await addDoc(collection(db, 'polls'), poll);
-
-		console.log('Poll saved:', poll);
-
-		questionT = '';
-		optionsT = [{ value: '' }];
 	}
 
 	async function logPolls() {
@@ -132,7 +99,7 @@
 
 	<button
 		class="mt-4 rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-		on:click|preventDefault={handleSubmit}>Create Poll</button
+		on:click|preventDefault={handleSubmit(db, questionT, optionsT)}>Create Poll</button
 	>
 
 	<div class="flex flex-col items-center justify-center">
