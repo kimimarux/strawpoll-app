@@ -1,28 +1,28 @@
 <script>
-	export let items = [{ value: '' }];
+	export let inputFields = [{ value: '' }];
 
 	function handleInput(event, index) {
-		if (index === items.length - 1 && event.target.value !== '') {
-			items = [...items, { value: '' }];
-		} else if (event.target.value === '' && items.length > 1) {
-			items = items.filter((item, i) => i !== index);
+		if (index === inputFields.length - 1 && event.target.value !== '') {
+			inputFields = [...inputFields, { value: '' }];
+		} else if (event.target.value === '' && inputFields.length > 1) {
+			inputFields = inputFields.filter((_, i) => i !== index);
 		} else {
-			items[index].value = event.target.value;
+			inputFields[index].value = event.target.value;
 		}
+
+		console.log(inputFields);
 	}
 
 	function handleClick() {
-		items = [{ value: '' }];
+		inputFields = [{ value: '' }];
 	}
-
-	$: items, items; // $: { items = items; }
 </script>
 
-{#each items as item, index}
+{#each inputFields as inputField, index}
 	<input
 		type="text"
-		id="textTest"
-		bind:value={item.value}
+		id="textTest ${index}"
+		bind:value={inputField.value}
 		class="mt-4 w-1/6 flex-col rounded-md border border-slate-300 bg-white px-2 py-2 text-sm placeholder-gray-600 focus:border-sky-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-sky-500"
 		on:input={(event) => handleInput(event, index)}
 		placeholder={`Option ${index + 1}`}
