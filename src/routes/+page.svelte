@@ -111,7 +111,7 @@
 		placeholder="What is your Question?"
 	/>
 	<div class="mt-4 text-2xl font-bold">Options</div>
-	<InputList bind:items={optionsT} />
+	<InputList bind:inputFields={optionsT} />
 
 	<div class="my-24" />
 
@@ -120,9 +120,9 @@
 			<div class="px-6 py-4">
 				<div class="mb-2 text-center text-xl font-bold">{questionT}</div>
 				<ul>
-					{#each optionsT as item, index}
-						{#if item.value !== ''}
-							<li class="text-base text-gray-700">•{item.value}</li>
+					{#each optionsT as inputField, index}
+						{#if inputField.value !== ''}
+							<li class="text-base text-gray-700">•{inputField.value}</li>
 						{/if}
 					{/each}
 				</ul>
